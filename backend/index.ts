@@ -2,16 +2,19 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
+import userRoutes from "./routes/user";
 
-dotenv.config();
-console.log(process.env.MONGO_URI);
-const PORT = process.env.PORT || 3000;
-console.log(process.env.PORT);
-const MONGO_URI =  process.env.MONGO_URI || "mongodb://localhost:27017/ai-ticket";
 const app = express();
-console.log(MONGO_URI);
+dotenv.config();
+const PORT = process.env.PORT || 3000;
+const MONGO_URI =
+  process.env.MONGO_URI || "mongodb://localhost:27017/ai-ticket";
+
 app.use(cors());
 app.use(express.json());
+
+app.use("/api/auth", userRoutes);
+
 mongoose
   .connect(MONGO_URI)
   .then(() => {

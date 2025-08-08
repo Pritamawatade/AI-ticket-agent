@@ -78,7 +78,7 @@ export const updateUser = async (req: Request, res: Response) => {
   const { skills = [], role, email } = req.body;
 
   try {
-    if (req.user?.role !== "admin") {
+    if ((req.user as IUSER).role !== "admin") {
       return res.status(403).json({ eeor: "Forbidden" });
     }
     const user = await User.findOne({ email });
@@ -98,7 +98,9 @@ export const updateUser = async (req: Request, res: Response) => {
 export const getUsers = async (req: Request, res: Response) => {
 
   try {
-    if (req.user.role !== "admin") {
+    if ((req.user as IUSER).role !== "admin") {
+
+
       return res.status(403).json({ error: "Forbidden" });
     }
 
