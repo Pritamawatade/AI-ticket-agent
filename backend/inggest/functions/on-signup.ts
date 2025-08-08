@@ -1,5 +1,5 @@
 import { NonRetriableError } from "inngest";
-import User ,{type User as UserModel} from "../../models/user";
+import User ,{type IUSER as UserModel} from "../../models/user";
 import { inngest } from "../client";
 import { sendMail } from "../../libs/mailer";
 
