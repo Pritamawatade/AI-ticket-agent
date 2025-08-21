@@ -43,6 +43,28 @@ export const onTicketCreate = inngest.createFunction(
                 }
                 return skills;
             });
+
+            const moderator = await step.run("assign-moderator", async () => {
+                let user = await User.findOne({
+                    role: "moderator",
+                    skills: {
+                        $eleMatch: {
+                            $regex: relatedSkills.join("|"),
+                            $options: "i",
+                        },
+                    },
+                });
+
+                if (!user) {
+                    user = await User.findOne({ role: "admin" });
+
+                    Ticket.findByIdAndUpdate(ticket._id, {
+                        assignedTo: user?._id,
+                    });
+                }
+
+                return user;
+            });
         } catch (error) {
             console.error(`❌ Error in onTicketCreate function`, error);
         }
