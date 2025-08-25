@@ -8,7 +8,7 @@
         "build": "tsc",
         "lint": "eslint . --ext .ts",
         "format": "prettier --write .",
-        "inngest-dev": "bunx inngest-cli@latest dev"
+        "inngest-dev": "inngest-cli dev -u http://localhost:3000/api/inngest"
     },
     "devDependencies": {
         "@types/bun": "latest",
@@ -28,6 +28,7 @@
         "dotenv": "^17.2.1",
         "express": "^5.1.0",
         "inngest": "^3.40.1",
+        "inngest-cli": "1.11.7",
         "jsonwebtoken": "^9.0.2",
         "mongoose": "^8.17.0",
         "nodemailer": "^7.0.5"

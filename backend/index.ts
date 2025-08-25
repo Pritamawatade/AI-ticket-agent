@@ -20,6 +20,9 @@ app.use(express.json());
 app.use("/api/auth", userRoutes);
 app.use("/api/ticket", ticketRoutes);
 
+app.get("/api/test", (req, res) => {
+    res.status(200).json({ msg: "ok" });
+});
 app.use(
     "/api/inngest",
     serve({
