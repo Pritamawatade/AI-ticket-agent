@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 export interface IUSER extends mongoose.Document {
     _id: mongoose.Types.ObjectId;
-
     email: string;
     password: string;
     role: string;

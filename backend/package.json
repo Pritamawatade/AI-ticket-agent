@@ -7,7 +7,8 @@
         "dev": "bun run --watch index.ts",
         "build": "tsc",
         "lint": "eslint . --ext .ts",
-        "format": "prettier --write ."
+        "format": "prettier --write .",
+        "inngest-dev": "npx inngest-cli@latest dev"
     },
     "devDependencies": {
         "@types/bun": "latest",
