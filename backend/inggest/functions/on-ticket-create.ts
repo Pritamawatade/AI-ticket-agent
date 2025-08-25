@@ -44,7 +44,7 @@ export const onTicketCreate = inngest.createFunction(
                 return skills;
             });
 
-            const moderator = await step.run("assign-moderator", async () => {
+            const moderator = (await step.run("assign-moderator", async () => {
                 let user = await User.findOne({
                     role: "moderator",
                     skills: {
@@ -64,7 +64,21 @@ export const onTicketCreate = inngest.createFunction(
                 }
 
                 return user;
+            })) as UserModel | null;
+
+            await step.run("send-email", async () => {
+                if (moderator) {
+                    const ticket = await Ticket.findById(ticketId);
+
+                    await sendMail(
+                        moderator.email,
+                        "ticket assigned",
+                        `A new ticket is assigned to you  ${ticket?.title}`
+                    );
+                }
             });
+
+            return { success: true };
         } catch (error) {
             console.error(`❌ Error in onTicketCreate function`, error);
         }
