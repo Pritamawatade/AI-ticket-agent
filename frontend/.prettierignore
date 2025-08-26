@@ -1,0 +1,14 @@
+node_modules
+.next
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+bun.lockb
+bun.lockb
+package-lock.json
+package.json
+pnpm-lock.yaml
+pnpm-workspace.yaml
+pnpm-workspace.yaml
