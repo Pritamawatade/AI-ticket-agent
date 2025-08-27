@@ -4,13 +4,14 @@ import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader,
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import axios from "axios"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 export default function signup() {
     const [form, setForm] = useState({ email: "", password: "" })
     const [loading, setLoading] = useState(false)
     const navigate = useRouter()
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value })
     }
@@ -48,13 +49,14 @@ export default function signup() {
                     </CardAction>
                 </CardHeader>
                 <CardContent>
-                    <form onSubmit={signup}>
+                    <form onSubmit={signup} className="space-y-6">
                         <div className="flex flex-col gap-6">
                             <div className="grid gap-2">
                                 <Label htmlFor="email">Email</Label>
                                 <Input
                                     onChange={handleChange}
                                     value={form.email}
+                                    name="email"
                                     id="email"
                                     type="email"
                                     placeholder="m@example.com"
@@ -74,22 +76,23 @@ export default function signup() {
                                 <Input
                                     onChange={handleChange}
                                     value={form.password}
+                                    name="password"
                                     id="password"
                                     type="password"
                                     required
                                 />
                             </div>
                         </div>
+                        <div className="space-y-2">
+                            <Button type="submit" className="w-full" disabled={loading}>
+                                {loading ? "Signing up..." : "Sign up"}
+                            </Button>
+                            <Button type="button" variant="outline" className="w-full">
+                                Sign up with Google
+                            </Button>
+                        </div>
                     </form>
                 </CardContent>
-                <CardFooter className="flex-col gap-2">
-                    <Button type="submit" className="w-full" disabled={loading}>
-                        signup
-                    </Button>
-                    <Button variant="outline" className="w-full">
-                        signup with Google
-                    </Button>
-                </CardFooter>
             </Card>
         </div>
     )

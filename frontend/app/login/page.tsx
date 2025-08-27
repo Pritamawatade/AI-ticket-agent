@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import Link from "next/link"
 import { useState } from "react"
 
 export default function Login() {
@@ -25,7 +26,9 @@ export default function Login() {
                     <CardTitle>Login to your account</CardTitle>
                     <CardDescription>Enter your email below to login to your account</CardDescription>
                     <CardAction>
-                        <Button variant="link">Sign Up</Button>
+                        <Button variant="link">
+                            <Link href={"/signup"}>Signup</Link>
+                        </Button>
                     </CardAction>
                 </CardHeader>
                 <CardContent>
