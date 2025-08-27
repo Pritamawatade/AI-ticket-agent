@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema<IUSER>(
         role: {
             type: String,
             required: true,
-            default: "USER",
+            default: "ADMIN",
         },
         skills: {
             type: [String],

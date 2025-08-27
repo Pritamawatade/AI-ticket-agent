@@ -4,6 +4,7 @@ import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader,
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import axios from "axios"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
@@ -26,6 +27,7 @@ export default function signup() {
                 const { user, token } = res.data
 
                 localStorage.setItem("token", token)
+                localStorage.setItem("user", JSON.stringify(user))
                 navigate.push("/")
             } else {
                 setLoading(false)
@@ -44,7 +46,7 @@ export default function signup() {
                     <CardDescription>Enter your email below to signup to your account</CardDescription>
                     <CardAction>
                         <Button variant="link" disabled={loading}>
-                            Login
+                            <Link href="/login">Login</Link>
                         </Button>
                     </CardAction>
                 </CardHeader>

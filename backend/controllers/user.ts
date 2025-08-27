@@ -92,8 +92,9 @@ export const updateUser = async (req: Request, res: Response) => {
 
 export const getUsers = async (req: Request, res: Response) => {
     try {
-        if ((req.user as IUSER).role !== "admin") {
-            return res.status(403).json({ error: "Forbidden" });
+        const userRole = (req.user as IUSER).role;
+        if (userRole?.toLowerCase() !== "admin") {
+            return res.status(403).json({ error: "Forbidden - Admin access required" });
         }
 
         const users = await User.find().select("-password");

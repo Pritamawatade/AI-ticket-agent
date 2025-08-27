@@ -26,6 +26,7 @@ export default function Login() {
                 const { user, token } = res.data
 
                 localStorage.setItem("token", token)
+                localStorage.setItem("user", JSON.stringify(user))
                 navigate.push("/")
             } else {
                 setLoading(false)
