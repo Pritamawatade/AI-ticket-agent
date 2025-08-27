@@ -7,6 +7,17 @@ import { useState } from "react"
 
 export default function Login() {
     const [form, setForm] = useState({ email: "", password: "" })
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setForm({ ...form, [e.target.name]: e.target.value })
+    }
+
+    const login = async (data: { email: string; password: string }) => {
+        try {
+        } catch (error: any) {
+            console.log(`something went wrong at logind ${error}`)
+        }
+    }
     return (
         <div className="flex items-center min-h-screen justify-center p-4">
             <Card className="w-full max-w-sm ">
