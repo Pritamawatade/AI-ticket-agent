@@ -7,8 +7,8 @@ export interface ITicket extends Document {
     status: "TODO" | "IN_PROGRESS" | "DONE";
     createdBy: Types.ObjectId;
     assignedTo: Types.ObjectId | null;
-    priority: "LOW" | "MEDIUM" | "HIGH";
-    deadline: Date;
+    priority?: "LOW" | "MEDIUM" | "HIGH";
+    deadline?: Date;
     helpfulNotes: string;
     relatedSkills: string[];
     createdAt: Date;
@@ -32,9 +32,8 @@ const ticketSchema: Schema<ITicket> = new Schema({
     priority: {
         type: String,
         enum: ["LOW", "MEDIUM", "HIGH"],
-        required: true,
     },
-    deadline: { type: Date, required: true },
+    deadline: { type: Date },
     helpfulNotes: String,
     relatedSkills: [String],
     createdAt: { type: Date, default: Date.now },

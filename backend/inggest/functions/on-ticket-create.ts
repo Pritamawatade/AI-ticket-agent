@@ -11,6 +11,7 @@ export const onTicketCreate = inngest.createFunction(
     async ({ event, step }) => {
         try {
             const { ticketId } = event.data;
+            console.log(`ticketId = ${ticketId}`);
 
             const ticket: any = await step.run("get-ticket", async () => {
                 const ticket = await Ticket.findById(ticketId);
@@ -21,11 +22,14 @@ export const onTicketCreate = inngest.createFunction(
                 return ticket;
             });
 
+            console.log(`ticket before updation= ${ticket}`);
             await step.run("update-ticket-status", async () => {
                 await Ticket.findByIdAndUpdate(ticket._id, { status: "TODO" });
             });
 
             const aiResponse = await analyzeTicket(ticket);
+
+            console.log(`aiResponse = ${aiResponse}`);
 
             const relatedSkills = await step.run("ai-processing", async () => {
                 let skills = [];

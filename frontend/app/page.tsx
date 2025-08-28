@@ -39,7 +39,23 @@ export function NavbarDemo() {
                     <NavItems items={navItems} />
                     <div className="flex items-center gap-4">
                         <NavbarButton variant="secondary">Login</NavbarButton>
-                        <NavbarButton variant="primary">Book a call</NavbarButton>
+                        <NavbarButton
+                            onClick={() =>
+                                fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/logout`, {
+                                    headers: {
+                                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                                    },
+                                    method: "POST"
+                                }).then(() => {
+                                    localStorage.removeItem("token")
+                                    localStorage.removeItem("user")
+                                })
+                            }
+                            variant="primary"
+                            className="w-full"
+                        >
+                            logout
+                        </NavbarButton>
                     </div>
                 </NavBody>
 
@@ -72,12 +88,20 @@ export function NavbarDemo() {
                             >
                                 Login
                             </NavbarButton>
+
                             <NavbarButton
-                                onClick={() => setIsMobileMenuOpen(false)}
+                                onClick={() =>
+                                    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/logout`, {
+                                        headers: {
+                                            Authorization: `Bearer ${localStorage.getItem("token")}`
+                                        },
+                                        method: "POST"
+                                    })
+                                }
                                 variant="primary"
                                 className="w-full"
                             >
-                                Book a call
+                                logout
                             </NavbarButton>
                         </div>
                     </MobileNavMenu>

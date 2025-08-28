@@ -11,8 +11,10 @@ export const createTicket = async (req: Request, res: Response) => {
     }
     try {
         const ticket = await Ticket.create({ title, description, createdBy: user._id.toString() });
+        console.log(`ticket in controller= ${ticket}`);
 
         if (!ticket) {
+            console.error("Failed to create ticket at line 16");
             return res.status(500).json({ message: "Failed to create ticket" });
         }
 
