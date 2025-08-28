@@ -28,6 +28,8 @@ export const createTicket = async (req: Request, res: Response) => {
             },
         });
 
+        console.log(`ticket after inngest.send= ${ticket}`);
+
         return res.status(201).json({
             message: "Ticket created and processing started",
             ticket,

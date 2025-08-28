@@ -17,12 +17,6 @@ const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/ai-ticket"
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/auth", userRoutes);
-app.use("/api/ticket", ticketRoutes);
-
-app.get("/api/test", (req, res) => {
-    res.status(200).json({ msg: "ok" });
-});
 app.use(
     "/api/inngest",
     serve({
@@ -30,6 +24,12 @@ app.use(
         functions: [onUserSignup, onTicketCreate],
     })
 );
+app.use("/api/auth", userRoutes);
+app.use("/api/ticket", ticketRoutes);
+
+app.get("/api/test", (req, res) => {
+    res.status(200).json({ msg: "ok" });
+});
 
 mongoose
     .connect(MONGO_URI)
