@@ -1,5 +1,7 @@
 import jwt, { type JwtPayload } from "jsonwebtoken";
 import type { Request, Response, NextFunction } from "express";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const authenticate = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization?.split(" ")[1];

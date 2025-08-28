@@ -42,6 +42,7 @@ export const getTickets = async (req: Request, res: Response) => {
     try {
         const user = req.user as IUSER;
         let tickets = [];
+        console.log(user);
         if (user.role !== "user") {
             tickets = await Ticket.find({})
                 .populate("assignedTo", ["email", "_id"])

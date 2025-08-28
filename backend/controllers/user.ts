@@ -2,6 +2,8 @@ import jwt from "jsonwebtoken";
 import User, { type IUSER, type IUSER as UserModel } from "../models/user";
 import { inngest } from "../inggest/client";
 import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+dotenv.config();
 
 import type { Request, Response } from "express";
 
