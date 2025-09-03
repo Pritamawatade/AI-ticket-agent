@@ -8,7 +8,7 @@
         "build": "tsc",
         "lint": "eslint . --ext .ts",
         "format": "prettier --write .",
-        "inngest-dev": "npx inngest-cli dev -u http://localhost:3000/api/inngest"
+        "inngest-dev": "npx inngest-cli dev -u http://localhost:8080/api/inngest"
     },
     "devDependencies": {
         "@types/bun": "latest",

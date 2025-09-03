@@ -11,7 +11,6 @@ export const createTicket = async (req: Request, res: Response) => {
     }
     try {
         const ticket = await Ticket.create({ title, description, createdBy: user._id.toString() });
-        console.log(`ticket in controller= ${ticket}`);
 
         if (!ticket) {
             console.error("Failed to create ticket at line 16");
@@ -28,8 +27,6 @@ export const createTicket = async (req: Request, res: Response) => {
             },
         });
 
-        console.log(`ticket after inngest.send= ${ticket}`);
-
         return res.status(201).json({
             message: "Ticket created and processing started",
             ticket,
@@ -44,7 +41,6 @@ export const getTickets = async (req: Request, res: Response) => {
     try {
         const user = req.user as IUSER;
         let tickets = [];
-        console.log(user);
         if (user.role !== "user") {
             tickets = await Ticket.find({})
                 .populate("assignedTo", ["email", "_id"])

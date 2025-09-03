@@ -11,7 +11,6 @@ export const onTicketCreate = inngest.createFunction(
     async ({ event, step }) => {
         try {
             const { ticketId } = event.data;
-            console.log(`ticketId = ${ticketId}`);
 
             const ticket: any = await step.run("get-ticket", async () => {
                 const ticket = await Ticket.findById(ticketId);
@@ -22,17 +21,14 @@ export const onTicketCreate = inngest.createFunction(
                 return ticket;
             });
 
-            console.log(`ticket before updation= ${ticket}`);
             await step.run("update-ticket-status", async () => {
                 await Ticket.findByIdAndUpdate(ticket._id, { status: "TODO" });
             });
 
             const aiResponse = await analyzeTicket(ticket);
 
-            console.log(`aiResponse = ${aiResponse}`);
-
             const relatedSkills = await step.run("ai-processing", async () => {
-                let skills = [];
+                let skills = [] as string[];
 
                 if (aiResponse) {
                     await Ticket.findByIdAndUpdate(ticket._id, {
@@ -51,18 +47,14 @@ export const onTicketCreate = inngest.createFunction(
             const moderator = (await step.run("assign-moderator", async () => {
                 let user = await User.findOne({
                     role: "moderator",
-                    skills: {
-                        $eleMatch: {
-                            $regex: relatedSkills.join("|"),
-                            $options: "i",
-                        },
-                    },
+                    // Match any user whose skills contain any of the related skills (case-insensitive)
+                    skills: { $in: (relatedSkills || []).map((s: string) => new RegExp(s, "i")) },
                 });
 
                 if (!user) {
                     user = await User.findOne({ role: "admin" });
 
-                    Ticket.findByIdAndUpdate(ticket._id, {
+                    await Ticket.findByIdAndUpdate(ticket._id, {
                         assignedTo: user?._id,
                     });
                 }
@@ -71,14 +63,20 @@ export const onTicketCreate = inngest.createFunction(
             })) as UserModel | null;
 
             await step.run("send-email", async () => {
-                if (moderator) {
-                    const ticket = await Ticket.findById(ticketId);
+                try {
+                    if (moderator) {
+                        const ticket = await Ticket.findById(ticketId);
 
-                    await sendMail(
-                        moderator.email,
-                        "ticket assigned",
-                        `A new ticket is assigned to you  ${ticket?.title}`
-                    );
+                        await sendMail(
+                            moderator.email,
+                            "ticket assigned",
+                            `A new ticket is assigned to you  ${ticket?.title}`
+                        );
+                    } else {
+                        console.warn("No moderator assigned; skipping email.");
+                    }
+                } catch (mailErr) {
+                    console.error("Email send failed, continuing without email:", mailErr);
                 }
             });
 
